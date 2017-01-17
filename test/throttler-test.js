@@ -32,4 +32,17 @@ describe('TimeBasedEventThrottler', function() {
 
         assert.ok(spy.calledOnce);
     });
+
+    it('passes arguments to the destination callback', function(done) {
+        let emitter = new EventEmitter();
+        let throttler = new TimeBasedEventThrottler(emitter, 'newData', 
+            (data) => {
+                assert.notEqual(undefined, data);
+                assert.equal(5, data.x);
+                done(); 
+            }, 0);
+
+
+        emitter.emit('newData', { "x": 5 });
+    });
 });
