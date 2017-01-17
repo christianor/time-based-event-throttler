@@ -14,16 +14,16 @@ describe('TimeBasedEventThrottler', function() {
     });
 
     it('blocks events and lets pass only one after an minimum of 5 seconds', function() {
-        this.timeout(15000);
         let spy = sinon.spy();
         let emitter = new EventEmitter();
         let stopwatch = new Stopwatch();
+        const TIME_PERIOD = 1000;
 
-        let throttler = new TimeBasedEventThrottler(emitter, 'newData', spy, 5000);
+        let throttler = new TimeBasedEventThrottler(emitter, 'newData', spy, TIME_PERIOD);
         stopwatch.start();
 
         while (true) {
-            if (stopwatch.read() >= 5000) {
+            if (stopwatch.read() >= TIME_PERIOD) {
                 stopwatch.stop();
                 break;
             }
