@@ -1,0 +1,23 @@
+{
+  "name": "time-based-event-throttler",
+  "version": "0.1.0",
+  "description": "Periodically lets pass one event from an eventemitter when a defined amount of time has passed.",
+  "main": "lib/TimeBasedEventThrottler.js",
+  "scripts": {
+    "test": "mocha test/"
+  },
+  "keywords": [
+    "callback",
+    "EventEmitter",
+    "throttling"
+  ],
+  "author": "Christian Ortiz",
+  "license": "ISC",
+  "dependencies": {
+    "statman-stopwatch": "^2.4.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7"
+  }
+}
