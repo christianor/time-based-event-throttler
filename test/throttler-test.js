@@ -13,7 +13,7 @@ describe('TimeBasedEventThrottler', function() {
             "first parameter has to be of type EventEmitter");
     });
 
-    it('blocks events and lets pass only one after an minimum of 5 seconds', function() {
+    it('blocks events and lets pass only 1 after an minimum of 1 second', function() {
         let spy = sinon.spy();
         let emitter = new EventEmitter();
         let stopwatch = new Stopwatch();
@@ -23,7 +23,8 @@ describe('TimeBasedEventThrottler', function() {
         stopwatch.start();
 
         while (true) {
-            if (stopwatch.read() >= TIME_PERIOD) {
+            // plus buffer to make sure the call got through
+            if (stopwatch.read() >= TIME_PERIOD + 100) {
                 stopwatch.stop();
                 break;
             }
@@ -31,6 +32,26 @@ describe('TimeBasedEventThrottler', function() {
         }
 
         assert.ok(spy.calledOnce);
+    });
+
+    it('blocks events and lets pass 2 after an minimum of 1 second and throttleAfterFirstEvent true', function() {
+        let spy = sinon.spy();
+        let emitter = new EventEmitter();
+        let stopwatch = new Stopwatch();
+        const TIME_PERIOD = 1000;
+
+        let throttler = new TimeBasedEventThrottler(emitter, 'newData', spy, TIME_PERIOD, true);
+        stopwatch.start();
+
+        while (true) {
+            if (stopwatch.read() >= TIME_PERIOD + 100) {
+                stopwatch.stop();
+                break;
+            }
+            emitter.emit('newData');
+        }
+        console.log(spy.callCount);
+        assert.ok(spy.calledTwice);
     });
 
     it('passes arguments to the destination callback', function(done) {
