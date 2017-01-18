@@ -67,3 +67,14 @@ describe('TimeBasedEventThrottler', function() {
         emitter.emit('newData', { "x": 5 });
     });
 });
+
+/** Stopwatch tests */
+describe('StopWatch', function() {
+  let tm = new TemperatureMonitor();
+  describe('#read()', function() {
+    it('it should be NaN if not started', function() {
+      var sw = new Stopwatch();
+      assert.equal(isNaN(sw.read()), true);
+    });
+  });
+});
